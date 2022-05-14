@@ -1,4 +1,4 @@
-package com.nwpu.remote.client;
+package com.nwpu.core.client;
 
 import com.nwpu.core.client.RedisResponse;
 import com.nwpu.core.client.RedisResponseStream;

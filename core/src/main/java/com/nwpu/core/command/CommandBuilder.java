@@ -2,6 +2,8 @@ package com.nwpu.core.command;
 
 import com.nwpu.core.client.RedisClient;
 import com.nwpu.core.command.impl.AuthCommand;
+import com.nwpu.core.command.impl.GetCommand;
+import com.nwpu.core.command.impl.SetCommand;
 import com.nwpu.core.exception.ExceptionThrower;
 import com.nwpu.core.exception.RedisException;
 import io.netty.handler.codec.CodecException;
@@ -28,6 +30,11 @@ public class CommandBuilder {
         for (int i = 0; i < messages.length; i++) {
             decodes[i] = decodeMessageToString(messages[i]);
         }
+        for(String s : decodes){
+            System.out.println(s);
+        }
+        System.out.println();
+
         return decode(redisClient, decodes);
     }
 
@@ -48,10 +55,10 @@ public class CommandBuilder {
 //                    return SelectDbCommand.build(redisClient, Integer.parseInt(messages[1]));
 //                case CommandType.MONITOR:
 //                    return MonitorCommand.build(redisClient);
-//                case CommandType.GET:
-//                    return GetCommand.build(redisClient, messages[1]);
-//                case CommandType.SET:
-//                    return tryBuildSetCommand(redisClient, messages);
+                case CommandType.GET:
+                    return GetCommand.build(redisClient, messages[1]);
+                case CommandType.SET:
+                    return tryBuildSetCommand(redisClient, messages);
 //                case CommandType.SETNX:
 //                    return SetNxCommand.build(redisClient, messages[1], messages[2]);
 //                case CommandType.SETEX:
@@ -95,17 +102,26 @@ public class CommandBuilder {
     }
 
 
-//    private static SetCommand tryBuildSetCommand(RedisClient redisClient, String[] messages) {
-//        if (messages.length == 3) {
-//            return SetCommand.build(redisClient, messages[1], messages[2], null);
-//        }
-//        if (messages.length == 5 && "ex".equalsIgnoreCase(messages[3])) {
-//            return SetCommand.build(redisClient, messages[1], messages[2], Long.parseLong(messages[4]));
-//        }
-//        ExceptionThrower.ERROR_PARAM.throwException("set");
-//        return null;
-//    }
-//
+    /**
+     * 此 set 操作 （set k v | set k v ex seconds）
+     * 但是不是按照redis的规则来的，实际上应该是：
+     *（SET key value [NX] [XX] [EX <seconds>] [PX <milliseconds>]）
+     *（EX与PX互斥 NX与XX互斥）
+     * @param redisClient
+     * @param messages
+     * @return
+     */
+    private static SetCommand tryBuildSetCommand(RedisClient redisClient, String[] messages) {
+        if (messages.length == 3) {
+            return SetCommand.build(redisClient, messages[1], messages[2], null);
+        }
+        if (messages.length == 5 && "ex".equalsIgnoreCase(messages[3])) {
+            return SetCommand.build(redisClient, messages[1], messages[2], Long.parseLong(messages[4]));
+        }
+        ExceptionThrower.ERROR_PARAM.throwException("set");
+        return null;
+    }
+
 //    private static DelCommand tryBuildDelCommand(RedisClient redisClient, String[] messages) {
 //        String[] keys = new String[messages.length - 1];
 //        for (int i = 1; i < messages.length; i++) {

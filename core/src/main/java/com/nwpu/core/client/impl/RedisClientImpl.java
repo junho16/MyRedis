@@ -6,10 +6,7 @@ import com.nwpu.core.command.RedisCommand;
 import com.nwpu.core.command.impl.AuthCommand;
 import com.nwpu.core.exception.ExceptionThrower;
 import com.nwpu.core.server.RedisServer;
-import com.nwpu.core.struct.RedisDb;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.nwpu.core.db.RedisDb;
 
 /**
  * @author Junho

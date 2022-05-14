@@ -3,7 +3,7 @@ package com.nwpu.core.server;
 import com.nwpu.core.client.RedisClient;
 import com.nwpu.core.listen.ListenerManager;
 import com.nwpu.core.server.entity.RedisConfig;
-import com.nwpu.core.struct.RedisDb;
+import com.nwpu.core.db.RedisDb;
 
 /**
  * 服务端接口

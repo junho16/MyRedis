@@ -2,7 +2,7 @@ package com.nwpu.core.client;
 
 import com.nwpu.core.command.RedisCommand;
 import com.nwpu.core.server.RedisServer;
-import com.nwpu.core.struct.RedisDb;
+import com.nwpu.core.db.RedisDb;
 
 /**
  * @author Junho

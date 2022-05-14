@@ -1,6 +1,8 @@
-package com.nwpu.core.struct.impl;
+package com.nwpu.core.db.impl;
 
-import com.nwpu.core.struct.RedisDb;
+import com.nwpu.core.db.Dict;
+import com.nwpu.core.db.RedisDb;
+import com.nwpu.core.db.RedisObject;
 
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -12,9 +14,9 @@ public class RedisDbImpl implements RedisDb {
 
     private final int id;
 
-    private ConcurrentHashMap dict = new ConcurrentHashMap();
+    private Dict dict = new RedisDict();
 
-    private ConcurrentHashMap expires = new ConcurrentHashMap();
+    private Dict expires = new RedisDict();
 
     public RedisDbImpl(final int id) {
         this.id = id;
@@ -26,12 +28,13 @@ public class RedisDbImpl implements RedisDb {
     }
 
     @Override
-    public ConcurrentHashMap dict() {
+    public Dict<String, RedisObject> dict() {
         return dict;
     }
 
     @Override
-    public ConcurrentHashMap<String, Long> expires() {
+    public Dict<String, Long> expires() {
         return expires;
     }
+
 }

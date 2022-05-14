@@ -25,6 +25,7 @@ public class AuthCommand extends AbstractCommand implements RedisCommand {
             redisClient.dataAccess().setAuth(true);
             redisClient.stream().responseString("OK");
         } else {
+            redisClient.stream().responseString("ERR invalid password");
             ExceptionThrower.AUTH_ERROR.throwException();
         }
     }

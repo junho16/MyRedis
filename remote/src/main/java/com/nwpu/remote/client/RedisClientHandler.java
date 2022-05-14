@@ -54,4 +54,16 @@ public class RedisClientHandler extends SimpleChannelInboundHandler<ArrayRedisMe
         redisClient.destroy();
         server.removeClient(redisClient);
     }
+
+    @Override
+    public void channelReadComplete(ChannelHandlerContext ctx) {
+        ctx.flush();
+    }
+
+    @Override
+    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
+        redisClient.stream().error(cause.getMessage());
+    }
+
+
 }

@@ -8,8 +8,8 @@ import com.nwpu.core.server.RedisInfo;
 import com.nwpu.core.server.RedisServer;
 import com.nwpu.core.server.entity.Logo;
 import com.nwpu.core.server.entity.RedisConfig;
-import com.nwpu.core.struct.RedisDb;
-import com.nwpu.core.struct.impl.RedisDbImpl;
+import com.nwpu.core.db.RedisDb;
+import com.nwpu.core.db.impl.RedisDbImpl;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 

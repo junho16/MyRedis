@@ -1,6 +1,10 @@
 package com.nwpu.core.client.impl;
 
 import com.nwpu.core.client.RedisClient;
+import com.nwpu.core.client.RedisResponseStream;
+import com.nwpu.core.command.RedisCommand;
+import com.nwpu.core.command.impl.AuthCommand;
+import com.nwpu.core.exception.ExceptionThrower;
 import com.nwpu.core.server.RedisServer;
 import com.nwpu.core.struct.RedisDb;
 
@@ -19,11 +23,16 @@ public class RedisClientImpl implements RedisClient {
 
     protected RedisDb curDb;
 
-//    protected RedisResponseStream stream;
+    protected RedisResponseStream stream;
 
     protected boolean auth;
 
 //    protected List<Listener> listeners = new ArrayList<>();
+
+    public RedisClientImpl(final String name, RedisResponseStream stream) {
+        this.name = name;
+        this.stream = stream;
+    }
 
     @Override
     public String name() {
@@ -56,6 +65,20 @@ public class RedisClientImpl implements RedisClient {
     }
 
     @Override
+    public void executeCommand(RedisCommand redisCommand) {
+        if (!(redisCommand instanceof AuthCommand) && !auth) {
+            ExceptionThrower.NO_AUTH.throwException();
+        }
+        redisCommand.execute();
+        server().listenerManager().accept(redisCommand);
+    }
+
+    @Override
+    public RedisResponseStream stream() {
+        return stream;
+    }
+
+    @Override
     public RedisDb curDb() {
         if (curDb == null) {
             throw new RuntimeException("暂未设置当前db");
@@ -82,10 +105,10 @@ public class RedisClientImpl implements RedisClient {
                 redisClient.name = name;
             }
 
-//            @Override
-//            public void setRedisResponseStream(RedisResponseStream stream) {
-//                redisClient.stream = stream;
-//            }
+            @Override
+            public void setRedisResponseStream(RedisResponseStream stream) {
+                redisClient.stream = stream;
+            }
 
             @Override
             public void setAuth(boolean auth) {

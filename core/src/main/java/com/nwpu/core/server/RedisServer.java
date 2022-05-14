@@ -2,6 +2,7 @@ package com.nwpu.core.server;
 
 import com.nwpu.core.client.RedisClient;
 import com.nwpu.core.listen.ListenerManager;
+import com.nwpu.core.server.entity.RedisConfig;
 import com.nwpu.core.struct.RedisDb;
 
 /**
@@ -51,9 +52,11 @@ public interface RedisServer {
      */
     boolean auth(String password);
 
-//    /**
-//     * 获得对于客户端的监听
-//     * @return
-//     */
-//    ListenerManager listenerManager();
+    /**
+     * 获得对于客户端的监听
+     * @return
+     */
+    ListenerManager listenerManager();
+
+    RedisConfig getRedisConfig();
 }

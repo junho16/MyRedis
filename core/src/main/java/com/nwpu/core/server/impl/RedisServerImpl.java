@@ -10,6 +10,7 @@ import com.nwpu.core.server.entity.Logo;
 import com.nwpu.core.server.entity.RedisConfig;
 import com.nwpu.core.struct.RedisDb;
 import com.nwpu.core.struct.impl.RedisDbImpl;
+import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Map;
@@ -21,6 +22,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * @date 2022/5/13 16:09
  */
 @Slf4j
+@Data
 public class RedisServerImpl implements RedisServer {
 
     /**
@@ -94,6 +96,16 @@ public class RedisServerImpl implements RedisServer {
     @Override
     public boolean auth(String password) {
         return redisConfig.getPassword().equals(password);
+    }
+
+    @Override
+    public RedisConfig getRedisConfig() {
+        return redisConfig;
+    }
+
+    @Override
+    public ListenerManager listenerManager() {
+        return listenerManager;
     }
 
     /**

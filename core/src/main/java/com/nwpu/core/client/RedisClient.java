@@ -1,5 +1,6 @@
 package com.nwpu.core.client;
 
+import com.nwpu.core.command.RedisCommand;
 import com.nwpu.core.server.RedisServer;
 import com.nwpu.core.struct.RedisDb;
 
@@ -19,9 +20,9 @@ public interface RedisClient {
 
     RedisServer server();
 
-//    void executeCommand(RedisCommand redisCommand);
+    void executeCommand(RedisCommand redisCommand);
 
-//    RedisResponseStream stream();
+    RedisResponseStream stream();
 
     RedisDb curDb();
 
@@ -42,7 +43,7 @@ public interface RedisClient {
 
         void setName(String name);
 
-//        void setRedisResponseStream(RedisResponseStream stream);
+        void setRedisResponseStream(RedisResponseStream stream);
 
         void setAuth(boolean auth);
     }

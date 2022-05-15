@@ -48,10 +48,10 @@ public class DBUtil {
      */
     public static RedisObject delKey(RedisDb db, String key) {
         if (expireIfNeeded(db, key)) {
-            //已过期
+            // 已过期
             return null;
         }
-        //未过期
+        // 未过期
         RedisObject o = db.dict().remove(key);
         if (o != null) {
             db.expires().remove(key);

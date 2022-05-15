@@ -19,7 +19,7 @@ public class ListenerManagerImpl implements ListenerManager {
     private final Executor executor = Executors.newSingleThreadExecutor();
 
     /**
-     * 存放监听器，包括emm 命令监听等
+     * 存放监听器，包括emm 命令监听、monitor监听等。
      */
     private Set<Listener> listeners = new HashSet<>();
 

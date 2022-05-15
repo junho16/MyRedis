@@ -5,8 +5,12 @@ import com.nwpu.core.client.RedisResponseStream;
 import com.nwpu.core.command.RedisCommand;
 import com.nwpu.core.command.impl.AuthCommand;
 import com.nwpu.core.exception.ExceptionThrower;
+import com.nwpu.core.listen.Listener;
 import com.nwpu.core.server.RedisServer;
 import com.nwpu.core.db.RedisDb;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Junho
@@ -24,7 +28,12 @@ public class RedisClientImpl implements RedisClient {
 
     protected boolean auth;
 
-//    protected List<Listener> listeners = new ArrayList<>();
+    /**
+     * 目前客户端所使用到的监听器只有一个Monitor监听器
+     * 但是保证可拓展性 使用 list 存放
+     * 销毁client时 需保证server中存放的关于client的监听器一并销毁（见destroy()方法）
+     */
+    protected List<Listener> listeners = new ArrayList<>();
 
     public RedisClientImpl(final String name, RedisResponseStream stream) {
         this.name = name;
@@ -48,9 +57,9 @@ public class RedisClientImpl implements RedisClient {
 
     @Override
     public void destroy() {
-//        for (Listener listener : listeners) {
-//            server().listenerManager().remove(listener);
-//        }
+        for (Listener listener : listeners) {
+            server().listenerManager().remove(listener);
+        }
     }
 
     @Override
@@ -84,6 +93,12 @@ public class RedisClientImpl implements RedisClient {
     }
 
     @Override
+    public void addListener(Listener listener) {
+        listeners.add(listener);
+        server().listenerManager().addListener(listener);
+    }
+
+    @Override
     public DataAccess dataAccess() {
         final RedisClientImpl redisClient = this;
         return new DataAccess() {
@@ -113,4 +128,5 @@ public class RedisClientImpl implements RedisClient {
             }
         };
     }
+
 }

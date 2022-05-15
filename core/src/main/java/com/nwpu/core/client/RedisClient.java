@@ -1,6 +1,7 @@
 package com.nwpu.core.client;
 
 import com.nwpu.core.command.RedisCommand;
+import com.nwpu.core.listen.Listener;
 import com.nwpu.core.server.RedisServer;
 import com.nwpu.core.db.RedisDb;
 
@@ -30,7 +31,7 @@ public interface RedisClient {
 
 //    RedisCommand getCache(String command);
 
-//    void addListener(Listener listener);
+    void addListener(Listener listener);
 
     /**
      * 不使用抽象类 则使用内嵌接口

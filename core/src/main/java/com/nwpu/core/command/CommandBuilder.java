@@ -3,6 +3,7 @@ package com.nwpu.core.command;
 import com.nwpu.core.client.RedisClient;
 import com.nwpu.core.command.impl.AuthCommand;
 import com.nwpu.core.command.impl.GetCommand;
+import com.nwpu.core.command.impl.MonitorCommand;
 import com.nwpu.core.command.impl.SetCommand;
 import com.nwpu.core.exception.ExceptionThrower;
 import com.nwpu.core.exception.RedisException;
@@ -53,8 +54,8 @@ public class CommandBuilder {
                     return AuthCommand.build(redisClient, messages[1]);
 //                case CommandType.SELECT:
 //                    return SelectDbCommand.build(redisClient, Integer.parseInt(messages[1]));
-//                case CommandType.MONITOR:
-//                    return MonitorCommand.build(redisClient);
+                case CommandType.MONITOR:
+                    return MonitorCommand.build(redisClient);
                 case CommandType.GET:
                     return GetCommand.build(redisClient, messages[1]);
                 case CommandType.SET:

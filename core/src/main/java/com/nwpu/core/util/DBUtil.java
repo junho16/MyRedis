@@ -11,6 +11,12 @@ import com.nwpu.core.exception.ExceptionThrower;
  */
 public class DBUtil {
 
+    /**
+     * 通过 key 去 get value值 如果有超时情况，则直接返回null
+     * @param db
+     * @param key
+     * @return
+     */
     public static RedisObject lookupKeyRead(RedisDb db, String key) {
         if (expireIfNeeded(db, key)) {
             // 已过期
@@ -34,10 +40,18 @@ public class DBUtil {
         return (RedisSds) object;
     }
 
+    /**
+     * 删除 key 值
+     * @param db
+     * @param key
+     * @return
+     */
     public static RedisObject delKey(RedisDb db, String key) {
         if (expireIfNeeded(db, key)) {
+            //已过期
             return null;
         }
+        //未过期
         RedisObject o = db.dict().remove(key);
         if (o != null) {
             db.expires().remove(key);

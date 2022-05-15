@@ -1,10 +1,7 @@
 package com.nwpu.core.command;
 
 import com.nwpu.core.client.RedisClient;
-import com.nwpu.core.command.impl.AuthCommand;
-import com.nwpu.core.command.impl.GetCommand;
-import com.nwpu.core.command.impl.MonitorCommand;
-import com.nwpu.core.command.impl.SetCommand;
+import com.nwpu.core.command.impl.*;
 import com.nwpu.core.exception.ExceptionThrower;
 import com.nwpu.core.exception.RedisException;
 import io.netty.handler.codec.CodecException;
@@ -52,24 +49,24 @@ public class CommandBuilder {
             switch (commandTag) {
                 case CommandType.AUTH:
                     return AuthCommand.build(redisClient, messages[1]);
-//                case CommandType.SELECT:
-//                    return SelectDbCommand.build(redisClient, Integer.parseInt(messages[1]));
+                case CommandType.SELECT:
+                    return SelectDbCommand.build(redisClient, Integer.parseInt(messages[1]));
                 case CommandType.MONITOR:
                     return MonitorCommand.build(redisClient);
                 case CommandType.GET:
                     return GetCommand.build(redisClient, messages[1]);
                 case CommandType.SET:
                     return tryBuildSetCommand(redisClient, messages);
-//                case CommandType.SETNX:
-//                    return SetNxCommand.build(redisClient, messages[1], messages[2]);
-//                case CommandType.SETEX:
-//                    return SetExCommand.build(redisClient, messages[1], messages[3], Long.parseLong(messages[2]));
+                case CommandType.SETNX:
+                    return SetNxCommand.build(redisClient, messages[1], messages[2]);
+                case CommandType.SETEX:
+                    return SetExCommand.build(redisClient, messages[1], messages[3], Long.parseLong(messages[2]));
 //                case CommandType.PSETEX:
 //                    return PSetExCommand.build(redisClient, messages[1], messages[3], Long.parseLong(messages[2]));
 //                case CommandType.STR_LEN:
 //                    return StrLenCommand.build(redisClient, messages[1]);
-//                case CommandType.DEL:
-//                    return tryBuildDelCommand(redisClient, messages);
+                case CommandType.DEL:
+                    return tryBuildDelCommand(redisClient, messages);
 //                case CommandType.EXPIRE:
 //                    return ExpireCommand.build(redisClient, messages[1], Long.parseLong(messages[2]));
 //                case CommandType.TTL:
@@ -123,15 +120,15 @@ public class CommandBuilder {
         return null;
     }
 
-//    private static DelCommand tryBuildDelCommand(RedisClient redisClient, String[] messages) {
-//        String[] keys = new String[messages.length - 1];
-//        for (int i = 1; i < messages.length; i++) {
-//            keys[i - 1] = messages[i];
-//        }
-//        return DelCommand.build(redisClient, keys);
-//    }
-//
-//
+    private static DelCommand tryBuildDelCommand(RedisClient redisClient, String[] messages) {
+        String[] keys = new String[messages.length - 1];
+        for (int i = 1; i < messages.length; i++) {
+            keys[i - 1] = messages[i];
+        }
+        return DelCommand.build(redisClient, keys);
+    }
+
+
     private static String decodeMessageToString(RedisMessage msg) {
 
         if (msg instanceof SimpleStringRedisMessage) {

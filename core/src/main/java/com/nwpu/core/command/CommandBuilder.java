@@ -73,8 +73,8 @@ public class CommandBuilder {
 //                    return TTLCommand.build(redisClient, messages[1]);
 //                case CommandType.PTTL:
 //                    return PTTLCommand.build(redisClient, messages[1]);
-//                case CommandType.INCR:
-//                    return IncrCommand.build(redisClient, messages[1]);
+                case CommandType.INCR:
+                    return IncrCommand.build(redisClient, messages[1]);
 //                case CommandType.DECR:
 //                    return DecrCommand.build(redisClient, messages[1]);
 //                case CommandType.TYPE:

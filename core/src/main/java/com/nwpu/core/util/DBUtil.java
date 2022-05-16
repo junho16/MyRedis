@@ -26,8 +26,15 @@ public class DBUtil {
     }
 
 
+    /**
+     * 保证查找的数据是Sds 即可变长字符串
+     * @param db
+     * @param key
+     * @return
+     */
     public static RedisSds lookupKeyStringRead(RedisDb db, String key) {
         if (expireIfNeeded(db, key)) {
+            //已过期
             return null;
         }
         RedisObject object = db.dict().get(key);

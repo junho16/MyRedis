@@ -2,6 +2,10 @@ package com.nwpu.core.command;
 
 import com.nwpu.core.client.RedisClient;
 import com.nwpu.core.command.impl.*;
+import com.nwpu.core.command.impl.map.HDelCommand;
+import com.nwpu.core.command.impl.map.HGetCommand;
+import com.nwpu.core.command.impl.map.HSetCommand;
+import com.nwpu.core.command.impl.string.*;
 import com.nwpu.core.exception.ExceptionThrower;
 import com.nwpu.core.exception.RedisException;
 import io.netty.handler.codec.CodecException;
@@ -81,12 +85,12 @@ public class CommandBuilder {
 //                    return TypeCommand.build(redisClient, messages[1]);
 //                case CommandType.MGET:
 //                    return MGetCommand.build(redisClient, messages);
-//                case CommandType.HDEL:
-//                    return HDelCommand.build(redisClient, messages[1], messages[2]);
-//                case CommandType.HGET:
-//                    return HGetCommand.build(redisClient, messages[1], messages[2]);
-//                case CommandType.HSET:
-//                    return HSetCommand.build(redisClient, messages[1], messages[2], messages[3]);
+                case CommandType.HDEL:
+                    return HDelCommand.build(redisClient, messages[1], messages[2]);
+                case CommandType.HGET:
+                    return HGetCommand.build(redisClient, messages[1], messages[2]);
+                case CommandType.HSET:
+                    return HSetCommand.build(redisClient, messages[1], messages[2], messages[3]);
                 default:
                     ExceptionThrower.UNKNOWN_COMMAND.throwException(commandTag);
             }

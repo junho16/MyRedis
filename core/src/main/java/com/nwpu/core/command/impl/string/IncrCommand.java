@@ -1,15 +1,12 @@
-package com.nwpu.core.command.impl;
+package com.nwpu.core.command.impl.string;
 
 import com.nwpu.core.client.RedisClient;
 import com.nwpu.core.command.AbstractCommand;
 import com.nwpu.core.command.RedisCommand;
 import com.nwpu.core.db.RedisDb;
-import com.nwpu.core.db.RedisObject;
 import com.nwpu.core.db.impl.RedisSds;
 import com.nwpu.core.exception.ExceptionThrower;
 import com.nwpu.core.util.DBUtil;
-import javafx.beans.binding.LongExpression;
-import org.omg.CORBA.INTERNAL;
 
 /**
  * Redis Incr 命令将 key 中储存的数字值增一。

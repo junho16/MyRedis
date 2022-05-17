@@ -1,4 +1,4 @@
-package com.nwpu.core.command.impl;
+package com.nwpu.core.command.impl.string;
 
 import com.nwpu.core.client.RedisClient;
 import com.nwpu.core.command.AbstractCommand;
